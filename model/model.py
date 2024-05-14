@@ -23,9 +23,9 @@ class BinaryClassifier(nn.Module):
 class Model:
     def __init__(self):
         self.model = BinaryClassifier(input_size, hidden_size, output_size)
-        self.model.load_state_dict(torch.load("api/model.pth"))
+        self.model.load_state_dict(torch.load("model/model.pth"))
         self.vectorizer = CountVectorizer()
-        with open("api/vectorizer.pkl", "rb") as f:
+        with open("model/vectorizer.pkl", "rb") as f:
             self.vectorizer = pickle.load(f)
         
 
@@ -34,3 +34,7 @@ class Model:
         review_tensor = torch.tensor(review_vector, dtype=torch.float32)
         output = self.model(review_tensor)
         return output.item()
+
+
+model = Model()
+print(model.infer("This is a great movie!"))
