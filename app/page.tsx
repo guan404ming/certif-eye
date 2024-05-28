@@ -24,7 +24,7 @@ export default function Home() {
   };
 
   return (
-    <Card className="text-center w-1/2 min-h-full">
+    <Card className="text-center w-1/2 min-w-[300px] min-h-full">
       <CardHeader className=" text-xl font-bold">👀 Certif-Eye 👀</CardHeader>
       <CardContent className=" flex-col space-y-4">
         <Textarea ref={textareaRef} placeholder="Enter some review......" />
