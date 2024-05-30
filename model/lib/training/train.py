@@ -7,7 +7,6 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 import pickle
 
-
 # Define your neural network architecture
 class BinaryClassifier(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
@@ -22,7 +21,6 @@ class BinaryClassifier(nn.Module):
         out = self.fc2(out)
         return out
 
-
 # Custom dataset class
 class ReviewDataset(Dataset):
     def __init__(self, X, y):
@@ -35,15 +33,14 @@ class ReviewDataset(Dataset):
     def __getitem__(self, idx):
         return self.X[idx], self.y[idx]
 
-
 # Load your dataset
-data = pd.read_csv("lib/dataset.csv")
+data = pd.read_csv("dataset.csv")
 # Encode labels as 0 and 1
 data["label"] = data["label"].apply(lambda x: 0 if x == "CG" else 1)
 
 # Split the data into train and test sets
 X_train, X_test, y_train, y_test = train_test_split(
-    data["text"], data["label"], test_size=0.2, random_state=42
+    data["review"], data["label"], test_size=0.5, random_state=42
 )
 
 # Convert text data into numerical vectors using CountVectorizer
@@ -56,6 +53,7 @@ X_train_tensor = torch.tensor(X_train, dtype=torch.float32)
 y_train_tensor = torch.tensor(y_train.values, dtype=torch.float32)
 X_test_tensor = torch.tensor(X_test, dtype=torch.float32)
 y_test_tensor = torch.tensor(y_test.values, dtype=torch.float32)
+print("Data loaded and preprocessed")
 
 # Define hyperparameters
 input_size = X_train.shape[1]
@@ -91,6 +89,7 @@ for epoch in range(num_epochs):
         if (i + 1) % 100 == 0:
             predicted = (outputs > 0.5).float()
             accuracy = (predicted == labels.unsqueeze(1)).float().mean()
+            print(f'Epoch [{epoch+1}/{num_epochs}], Step [{i+1}/{len(train_loader)}], Loss: {loss.item():.4f}, Accuracy: {accuracy.item()*100:.2f}%')
 
 # Evaluations
 with torch.no_grad():
@@ -100,6 +99,6 @@ with torch.no_grad():
     print(f"Accuracy: {accuracy.item()*100:.2f}%")
 
 # Save the model and vectorizer
-torch.save(model.state_dict(), "lib/model.pth")
-with open("lib/vectorizer.pkl", "wb") as file:
+torch.save(model.state_dict(), "model.pth")
+with open("vectorizer.pkl", "wb") as file:
     pickle.dump(vectorizer, file)

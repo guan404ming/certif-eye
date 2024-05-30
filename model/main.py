@@ -23,9 +23,9 @@ class BinaryClassifier(nn.Module):
 class Model:
     def __init__(self):
         self.model = BinaryClassifier(input_size, hidden_size, output_size)
-        self.model.load_state_dict(torch.load("model/lib/model.pth"))
+        self.model.load_state_dict(torch.load("model/lib/training/model.pth"))
         self.vectorizer = CountVectorizer()
-        with open("model/lib/vectorizer.pkl", "rb") as f:
+        with open("model/lib/training/vectorizer.pkl", "rb") as f:
             self.vectorizer = pickle.load(f)
         
 
