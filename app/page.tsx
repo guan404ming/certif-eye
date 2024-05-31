@@ -1,5 +1,6 @@
 "use client";
 
+import LocationPicker from "@/components/location-picker";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -8,36 +9,32 @@ import { Textarea } from "@/components/ui/textarea";
 import useReview from "@/hooks/useReview";
 import { useRef, useState } from "react";
 
+function ScoreBadge({ score }: { score: number }) {
+  if (score < 0.9) {
+    return <Badge variant={"destructive"}>Fake</Badge>;
+  } else if (score >= 0.9 && score <= 1.3) {
+    return <Badge variant={"default"}>Medium</Badge>;
+  } else {
+    return <Badge variant={"success"}>Real</Badge>;
+  }
+}
+
 export default function Home() {
   const [score, setScore] = useState<number>(0);
-  const { getReviewPoint } = useReview();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { getReviewPoint } = useReview();
 
-  const ScoreBadge = ({ score }: { score: number }) => {
-    if (score < 0.9) {
-      return <Badge variant={"destructive"}>Fake</Badge>;
-    } else if (score >= 0.9 && score <= 1.3) {
-      return <Badge variant={"default"}>Medium</Badge>;
-    } else {
-      return <Badge variant={"success"}>Real</Badge>;
-    }
-  };
+  async function handleConfirm() {
+    const score = parseFloat(await getReviewPoint(textareaRef.current?.value!));
+    setScore(parseFloat(score.toFixed(4)));
+  }
 
   return (
     <Card className="text-center w-1/2 min-w-[300px] min-h-full">
       <CardHeader className=" text-xl font-bold">👀 Certif-Eye 👀</CardHeader>
       <CardContent className=" flex-col space-y-4">
         <Textarea ref={textareaRef} placeholder="Enter some review......" />
-        <Button
-          className="w-full"
-          onClick={async () => {
-            console.log(textareaRef.current?.value);
-            const score = parseFloat(
-              await getReviewPoint(textareaRef.current?.value!)
-            );
-            setScore(parseFloat(score.toFixed(4)));
-          }}
-        >
+        <Button className="w-full" onClick={handleConfirm}>
           Enter
         </Button>
         {score !== 0 && (
@@ -49,6 +46,7 @@ export default function Home() {
             </CardContent>
           </>
         )}
+        <LocationPicker />
       </CardContent>
     </Card>
   );

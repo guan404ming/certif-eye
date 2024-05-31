@@ -1,10 +1,6 @@
-const URL = process.env.NEXT_PUBLIC_VERCEL_URL
-  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api`
-  : "http://localhost:3000/api";
-
 export default function useReview() {
   async function getReviewPoint(review: string) {
-    const res = await fetch(`${URL}/infer`, {
+    const res = await fetch("api/infer", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
