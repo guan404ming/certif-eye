@@ -45,6 +45,9 @@ const Review = ({
 
 function ScoreBadge({ score }: { score: number }) {
   if (score < 0.9) {
+    if (score === -100) {
+      return <Badge variant={"destructive"}>Not Found</Badge>;
+    }
     return <Badge variant={"destructive"}>Fake</Badge>;
   } else if (score >= 0.9 && score <= 1.3) {
     return <Badge variant={"default"}>Medium</Badge>;
@@ -56,6 +59,7 @@ function ScoreBadge({ score }: { score: number }) {
 function LocationPage({ params }: { params: { placeId: string } }) {
   const [place, setPlace] = useState<google.maps.places.PlaceResult | null>();
   const [score, setScore] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
   const { getPlaceScore } = useReview();
 
   const map = useMap();
@@ -84,13 +88,16 @@ function LocationPage({ params }: { params: { placeId: string } }) {
     });
 
     (async () => {
+      setLoading(true);
       const score = parseFloat(await getPlaceScore(params.placeId));
+      setLoading(false);
       setScore(parseFloat(score.toFixed(4)));
     })();
   }, [map, placesLib, params.placeId]);
 
   return (
     <Card className="text-center min-w-[300px] min-h-full">
+      {loading && <CardContent>Loading...</CardContent>}
       <CardContent className="flex-col space-y-4 py-4">
         <div className=" flex justify-between items-center">
           <div className="text-left space-y-1">
@@ -121,8 +128,6 @@ function LocationPage({ params }: { params: { placeId: string } }) {
         >
           <AdvancedMarker position={latlng} />
         </Map>
-
-        <Separator />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {place?.reviews &&

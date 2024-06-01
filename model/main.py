@@ -5,6 +5,8 @@ import pickle
 import pandas as pd
 import googletrans
 
+from model.data.scraper import GoogleMapScraper
+
 input_size = 36975
 hidden_size = 128
 output_size = 1
@@ -54,7 +56,13 @@ class Model:
 
         # Check if there are any reviews for the place_id
         if len(df_reviews) == 0:
-            return -100
+            scraper = GoogleMapScraper(place_id, target_count=30)
+            scraper.load_reviews()
+            scraper.save_reviews_to_csv(filename="model/data/reviews.csv")
+            df_reviews = pd.read_csv("model/data/reviews.csv")
+            df_reviews = df_reviews[df_reviews["place_id"] == place_id]
+            if (len(scraper.reviews) == 0):
+                return -100
 
         # Calculate the total score from reviews
         total = 0

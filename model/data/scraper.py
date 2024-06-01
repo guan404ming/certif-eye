@@ -14,15 +14,15 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 
 
 class GoogleMapScraper:
-    def __init__(self, place, target_count=5):
-        self.place = place
+    def __init__(self, place_id, target_count=5):
+        self.place_id = place_id
         self.target_count = target_count
         self.driver = webdriver.Chrome(
             service=ChromeService(ChromeDriverManager().install())
         )
-        self.driver.get(
-            f"https://www.google.com/maps/place/?q=place_id:{place['place_id']}"
-        )
+        self.driver.get(f"https://www.google.com/maps/place/?q=place_id:{place_id}")
+        self.place_name = self.driver.find_element(By.CLASS_NAME, "DUwDvf").text
+
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_all_elements_located((By.XPATH, "//*[text()='評論']"))
         )
@@ -45,7 +45,7 @@ class GoogleMapScraper:
                 ActionChains(self.driver).scroll_from_origin(
                     ScrollOrigin.from_element(current_reviews[-1]), 0, 10000
                 ).perform()
-                time.sleep(1)
+                time.sleep(0.5)
                 current_reviews = self.driver.find_elements(By.CLASS_NAME, "jftiEf")
 
             if len(current_reviews) == current_length:
@@ -57,11 +57,11 @@ class GoogleMapScraper:
         show_more_buttons = self.driver.find_elements(
             By.XPATH, "//*[contains(text(), '全文')]"
         )[: self.target_count]
+        
         for show_more_button in show_more_buttons:
-            ActionChains(self.driver).move_to_element(show_more_button).click(
+            ActionChains(self.driver).click(
                 show_more_button
             ).perform()
-            time.sleep(0.5)
 
         soup = Soup(self.driver.page_source, "lxml")
         self.reviews = soup.find_all(class_="jftiEf")[: self.target_count]
@@ -94,8 +94,8 @@ class GoogleMapScraper:
             photo = photo_urls[0] if photo_urls else ""
             data.append(
                 [
-                    self.place["place_id"],
-                    self.place["name"],
+                    self.place_id,
+                    self.place_name,
                     name,
                     nickname,
                     review_count,
@@ -121,7 +121,7 @@ class GoogleMapScraper:
             ],
         )
 
-    def save_reviews_to_csv(self, filename="reviews.csv"):
+    def save_reviews_to_csv(self, filename="model/data/reviews.csv"):
         reviews_df = self.extract_reviews()
         if not os.path.isfile(filename):
             reviews_df.to_csv(filename, index=False, encoding="utf-8")

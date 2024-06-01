@@ -1,5 +1,5 @@
-from model.lib.data.finder import GoogleMapFinder
-from model.lib.data.scraper import GoogleMapScraper
+from finder import GoogleMapFinder
+from scraper import GoogleMapScraper
 import concurrent.futures
 
 
@@ -22,7 +22,7 @@ def main():
     print("\n==============\n")
 
     def get_review(place):
-        scraper = GoogleMapScraper(place, target_count=100)
+        scraper = GoogleMapScraper(place["place_id"], target_count=100)
         try:
             scraper.load_reviews()
             scraper.save_reviews_to_csv()
