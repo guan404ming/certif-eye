@@ -60,7 +60,7 @@ function LocationPicker() {
         defaultCenter={{ lat: 25.0129, lng: 121.5371 }}
         defaultZoom={15}
         onClick={handleMapClick}
-        mapId={process.env.NEXT_PUBLIC_MAP_ID}
+        mapId={"map"}
         reuseMaps
         className="w-full h-96"
       >
@@ -76,7 +76,7 @@ function LocationPicker() {
             <p>{place.formatted_address}</p>
             <Button
               className="h-5 m-2 w-20"
-              onClick={() => router.push(`/${place.place_id}`)}
+              onClick={() => router.push(`/place/${place.place_id}`)}
             >
               Analysis
             </Button>
