@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 from sklearn.feature_extraction.text import CountVectorizer
 import pickle
+import pandas as pd
+import googletrans
 
 input_size = 36975
 hidden_size = 128
@@ -34,7 +36,18 @@ class Model:
         review_tensor = torch.tensor(review_vector, dtype=torch.float32)
         output = self.model(review_tensor)
         return output.item()
+    
+    def get_place_score(self, place_id):
+        df = pd.read_csv("model/data/reviews.csv")
+        df = df[df["place_id"] == place_id]
 
+        if len(df) == 0:
+            return 0
+        
+        total = 0
+        for i in df["review"]:
+            translator = googletrans.Translator()
+            total += self.infer(translator.translate(str(i), dest='en').text)
+            translator.client.close()
 
-model = Model()
-print(model.infer("This is a great movie!"))
+        return total / len(df)

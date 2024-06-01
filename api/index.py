@@ -21,3 +21,15 @@ def infer():
 
     # Return the inference result
     return f"{result}"
+
+@app.route("/api/get-score", methods=["POST"])
+def get_score():
+    # Get the text from the form
+    user_input = request.get_json()
+
+    # Create a model instance and perform inference
+    model = Model()
+    result = model.get_place_score(user_input.get("place_id"))
+
+    # Return the inference result
+    return f"{result}"

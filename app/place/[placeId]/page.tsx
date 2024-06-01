@@ -4,6 +4,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import useReview from "@/hooks/useReview";
 import {
   useMap,
   useMapsLibrary,
@@ -42,8 +43,21 @@ const Review = ({
   );
 };
 
+function ScoreBadge({ score }: { score: number }) {
+  if (score < 0.9) {
+    return <Badge variant={"destructive"}>Fake</Badge>;
+  } else if (score >= 0.9 && score <= 1.3) {
+    return <Badge variant={"default"}>Medium</Badge>;
+  } else {
+    return <Badge variant={"success"}>Real</Badge>;
+  }
+}
+
 function LocationPage({ params }: { params: { placeId: string } }) {
   const [place, setPlace] = useState<google.maps.places.PlaceResult | null>();
+  const [score, setScore] = useState<number>(0);
+  const { getPlaceScore } = useReview();
+
   const map = useMap();
   const placesLib = useMapsLibrary("places");
   const latlng =
@@ -68,22 +82,33 @@ function LocationPage({ params }: { params: { placeId: string } }) {
         setPlace(placeResult);
       }
     });
+
+    (async () => {
+      const score = parseFloat(await getPlaceScore(params.placeId));
+      setScore(parseFloat(score.toFixed(4)));
+    })();
   }, [map, placesLib, params.placeId]);
 
   return (
     <Card className="text-center min-w-[300px] min-h-full">
       <CardContent className="flex-col space-y-4 py-4">
-        <div>
+        <div className=" flex justify-between items-center">
           <div className="text-left space-y-1">
             <h1 className="text-lg font-bold">{place?.name}</h1>
+
             <div className="space-x-2">
-              <Badge variant={"secondary"}>{place?.rating}</Badge>
+              <Badge variant={"secondary"}>Score: {score}</Badge>
               {place?.price_level && (
                 <Badge variant={"secondary"}>
                   {"$".repeat(place?.price_level ?? 0)}
                 </Badge>
               )}
             </div>
+          </div>
+
+          <div className="border text-center p-2">
+            <p className="font-bold">{score}</p>
+            <ScoreBadge score={score}></ScoreBadge>
           </div>
         </div>
 
