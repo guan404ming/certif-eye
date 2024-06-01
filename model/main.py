@@ -48,7 +48,16 @@ class Model:
         if place_id in df_place["place_id"].values:
             df_place_row = df_place[df_place["place_id"] == place_id]
             if not pd.isna(df_place_row["score"].values[0]):
-                return df_place_row["score"].values[0]
+                # Rank the scores
+                df_place['rank'] = df_place['score'].rank(ascending=True, method='min')
+
+                # Calculate the rank percentage
+                df_place['rank_percentage'] = (df_place['rank'] - 1) / (len(df_place) - 1) * 100
+
+                # Find the rank percentage of the current score
+                current_rank_percentage = df_place.loc[df_place["place_id"] == place_id, "rank_percentage"].values[0]
+
+                return current_rank_percentage
 
         # Read the reviews.csv file
         df_reviews = pd.read_csv("model/data/reviews.csv")
@@ -62,7 +71,7 @@ class Model:
             df_reviews = pd.read_csv("model/data/reviews.csv")
             df_reviews = df_reviews[df_reviews["place_id"] == place_id]
             if (len(scraper.reviews) == 0):
-                return -100
+                return -1
 
         # Calculate the total score from reviews
         total = 0
@@ -83,4 +92,13 @@ class Model:
 
         df_place.to_csv("model/data/places.csv", index=False)
 
-        return score
+        # Rank the scores
+        df_place['rank'] = df_place['score'].rank(ascending=True, method='min')
+
+        # Calculate the rank percentage
+        df_place['rank_percentage'] = (df_place['rank'] - 1) / (len(df_place) - 1) * 100
+
+        # Find the rank percentage of the current score
+        current_rank_percentage = df_place.loc[df_place["place_id"] == place_id, "rank_percentage"].values[0]
+
+        return current_rank_percentage
