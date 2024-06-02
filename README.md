@@ -58,7 +58,8 @@ Then, run the development server:
 ```bash
 npm run dev
 # or
-yarn dev
+yarn next-dev
+yarn flack-dev
 # or
 pnpm dev
 ```
