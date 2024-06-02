@@ -1,5 +1,5 @@
-export default function useReview() {
-  async function getReviewPoint(review: string) {
+export default function usePlace() {
+  async function getPlaceReviewScore(review: string) {
     const res = await fetch("/api/infer", {
       method: "POST",
       headers: {
@@ -12,8 +12,8 @@ export default function useReview() {
     return await res.text()
   }
 
-  async function getPlaceScore(placeId: string) {
-    const res = await fetch("/api/get-score", {
+  async function getPlaceInfo(placeId: string) {
+    const res = await fetch("/api/get-place-info", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export default function useReview() {
   }
 
   return {
-    getReviewPoint,
-    getPlaceScore,
+    getPlaceReviewScore,
+    getPlaceInfo,
   }
 }

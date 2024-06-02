@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import useReview from "@/hooks/useReview";
+import usePlace from "@/hooks/usePlace";
 import { useRef, useState } from "react";
 
 function ScoreBadge({ score }: { score: number }) {
@@ -22,10 +22,10 @@ function ScoreBadge({ score }: { score: number }) {
 export default function Home() {
   const [score, setScore] = useState<number>(0);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { getReviewPoint } = useReview();
+  const { getPlaceReviewScore } = usePlace();
 
   async function handleConfirm() {
-    const score = parseFloat(await getReviewPoint(textareaRef.current?.value!));
+    const score = parseFloat(await getPlaceReviewScore(textareaRef.current?.value!));
     setScore(parseFloat(score.toFixed(4)));
   }
 

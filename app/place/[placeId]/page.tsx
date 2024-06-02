@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import useReview from "@/hooks/useReview";
+import usePlace from "@/hooks/usePlace";
 import Image from "next/image";
 import {
   useMap,
@@ -22,7 +22,7 @@ function LocationPage({ params }: { params: { placeId: string } }) {
   const [wordCloud, setWordCloud] = useState<any>();
 
   const [loading, setLoading] = useState<boolean>(true);
-  const { getPlaceScore } = useReview();
+  const { getPlaceInfo } = usePlace();
 
   const map = useMap();
   const placesLib = useMapsLibrary("places");
@@ -51,7 +51,7 @@ function LocationPage({ params }: { params: { placeId: string } }) {
 
     (async () => {
       setLoading(true);
-      const res = await getPlaceScore(params.placeId);
+      const res = await getPlaceInfo(params.placeId);
       const score = parseFloat(res.score);
       setLoading(false);
       setScore(parseFloat(score.toFixed(2)));
