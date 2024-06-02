@@ -29,7 +29,6 @@ def get_score():
 
     # Create a model instance and perform inference
     model = Model()
-    result = model.get_place_score(user_input.get("place_id"))
 
     # Return the inference result
-    return f"{result}"
+    return model.get_place_score(user_input.get("place_id"))

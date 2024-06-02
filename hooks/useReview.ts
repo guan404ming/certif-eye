@@ -22,7 +22,7 @@ export default function useReview() {
         "place_id": placeId,
       }),
     });
-    return await res.text()
+    return await res.json()
   }
 
   return {
