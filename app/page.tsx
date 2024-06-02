@@ -30,13 +30,13 @@ export default function Home() {
   }
 
   return (
-    <Card className="text-center w-1/2 min-w-[300px] min-h-full">
+    <div className="text-center max-w-[600px] min-h-full w-full">
       <CardHeader className=" text-xl font-bold">👀 Certif-Eye 👀</CardHeader>
       <CardContent className=" flex-col space-y-4">
-        <Textarea ref={textareaRef} placeholder="Enter some review......" />
+        {/* <Textarea ref={textareaRef} placeholder="Enter some review......" />
         <Button className="w-full" onClick={handleConfirm}>
           Enter
-        </Button>
+        </Button> */}
         {score !== 0 && (
           <>
             <Separator />
@@ -48,6 +48,6 @@ export default function Home() {
         )}
         <LocationPicker />
       </CardContent>
-    </Card>
+    </div>
   );
 }

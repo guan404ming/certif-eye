@@ -60,7 +60,7 @@ function LocationPage({ params }: { params: { placeId: string } }) {
   }, [map, placesLib, params.placeId]);
 
   return (
-    <Card className="text-center min-w-[300px] min-h-full">
+    <div className="text-center min-w-[300px] min-h-full">
       <CardContent className={"flex-col space-y-4 py-4"}>
         <div className=" flex justify-between items-center">
           <div className="text-left space-y-1">
@@ -95,27 +95,29 @@ function LocationPage({ params }: { params: { placeId: string } }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 min-h-[200px]">
           <Map
             center={latlng}
             defaultZoom={15}
             mapId={"map"}
             reuseMaps
-            className="w-full h-96 md:h-auto md:min-h-[200px] "
+            className="w-full min-h-[200px]"
           >
             <AdvancedMarker position={latlng} />
           </Map>
 
-          {wordCloud && (
+          {wordCloud ? (
             <div className="flex justify-center items-center">
               <Image
                 src={`data:image/png;base64,${wordCloud}`}
                 alt="upload pic"
                 width={200}
                 height={200}
-                className=" h-full w-auto"
+                className="w-full"
               />
             </div>
+          ) : (
+            <Skeleton className="h-full w-full" />
           )}
         </div>
 
@@ -134,7 +136,7 @@ function LocationPage({ params }: { params: { placeId: string } }) {
             ))}
         </div>
       </CardContent>
-    </Card>
+    </div>
   );
 }
 
