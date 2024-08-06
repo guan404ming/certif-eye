@@ -1,79 +1,92 @@
+# Certif-Eye 👀
+
 <p align="center">
-  <a href="https://nextjs-flask-starter.vercel.app/">
-    <img src="https://assets.vercel.com/image/upload/v1588805858/repositories/vercel/logo.png" height="96">
-    <h3 align="center">Next.js Flask Starter</h3>
-  </a>
+  <img width="400" alt="Certif-Eye Logo" src="assets/screenshot.png">
 </p>
 
-<p align="center">Simple Next.js boilerplate that uses <a href="https://flask.palletsprojects.com/">Flask</a> as the API backend.</p>
+- We have created an AI-powered platform dedicated to identifying and verifying the authenticity of restaurant reviews. On this website, users can:
 
-<br/>
+  **Check Review Authenticity** - Input review text to get an authenticity score.
 
-## Introduction
+  **Browse Restaurant Information** - View ratings, reviews, and word clouds for specific restaurants.
 
-This is a hybrid Next.js + Python app that uses Next.js as the frontend and Flask as the API backend. One great use case of this is to write Next.js apps that use Python AI libraries on the backend.
+  **Analyze Review Trends** - Understand overall restaurant ratings through visualized data.
 
-## How It Works
+### 👀 Feature Introduction
 
-The Python/Flask server is mapped into to Next.js app under `/api/`.
+- **Review Analysis:**
+    - Input review text for authenticity analysis
+    - Display authenticity score for reviews
+- **Restaurant Information:**
+    - Show restaurant location, ratings, and reviews
+    - Generate word clouds from reviews
+    - Display restaurant's percentile ranking among all ratings
+- **Map Functionality:**
+    - Display restaurant locations
+- **Interface:**
+    - Responsive design
+    - Intuitive user interface
+- **Automated Web Scraping:**
+    - Regularly collect new restaurant reviews from popular platforms
+    - Update database with fresh review data
+    - Ensure up-to-date analysis and trends
 
-This is implemented using [`next.config.js` rewrites](https://github.com/vercel/examples/blob/main/python/nextjs-flask/next.config.js) to map any request to `/api/:path*` to the Flask API, which is hosted in the `/api` folder.
+### 👀 Frameworks / Modules / Third-Party Packages Used
 
-On localhost, the rewrite will be made to the `127.0.0.1:5328` port, which is where the Flask server is running.
+#### Frontend:
+- React.js, Next.js
+- UI components: shadcn-ui
+- Map functionality: @vis.gl/react-google-maps
 
-In production, the Flask server is hosted as [Python serverless functions](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python) on Vercel.
+#### Backend:
+- Flask API
+- Machine Learning model: PyTorch
+- Data processing: pandas, numpy
+- Natural Language Processing: googletrans, wordcloud
+- Web scraping: Beautiful Soup, Selenium
 
-## Demo
+#### Development Tools:
+- Code formatting and linting: eslint, prettier
+- Type checking: typescript
 
-https://nextjs-flask-starter.vercel.app/
+### 👀 How to Install and Test on Localhost
 
-## Deploy Your Own
+1. Clone this repository:
+   ```
+   git clone https://github.com/your-username/certif-eye.git
+   cd certif-eye
+   ```
 
-You can clone & deploy it to Vercel with one click:
+2. Install frontend dependencies:
+   ```
+   bun install
+   ```
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-title=Next.js%20Flask%20Starter&demo-description=Simple%20Next.js%20boilerplate%20that%20uses%20Flask%20as%20the%20API%20backend.&demo-url=https%3A%2F%2Fnextjs-flask-starter.vercel.app%2F&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F795TzKM3irWu6KBCUPpPz%2F44e0c6622097b1eea9b48f732bf75d08%2FCleanShot_2023-05-23_at_12.02.15.png&project-name=Next.js%20Flask%20Starter&repository-name=nextjs-flask-starter&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fnextjs-flask&from=vercel-examples-repo)
+3. Install backend dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
 
-## Developing Locally
+4. Set up environment variables:
+   - Create a `.env` file in the project root
+   - Add necessary environment variables (e.g., database URL, API keys, etc.)
 
-You can clone & create this repo with the following command
+5. Run the development servers:
+   - Frontend:
+     ```
+     bun run next-dev
+     ```
+   - Backend:
+     ```
+     bun run flask-dev
+     ```
 
-```bash
-npx create-next-app nextjs-flask --example "https://github.com/vercel/examples/tree/main/python/nextjs-flask"
-```
+6. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Getting Started
+### 👀 Contributing
 
-First, install the dependencies:
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-```bash
-npm install
-# or
-yarn
-# or
-pnpm install
-```
+### 👀 License
 
-Then, run the development server:
-
-```bash
-npm run dev
-# or
-yarn next-dev
-yarn flack-dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-The Flask server will be running on [http://127.0.0.1:5328](http://127.0.0.1:5328) – feel free to change the port in `package.json` (you'll also need to update it in `next.config.js`).
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [Flask Documentation](https://flask.palletsprojects.com/en/1.1.x/) - learn about Flask features and API.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+[MIT](https://choosealicense.com/licenses/mit/)
