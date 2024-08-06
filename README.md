@@ -53,7 +53,7 @@
 
 1. Clone this repository:
    ```
-   git clone https://github.com/your-username/certif-eye.git
+   git clone https://github.com/guan404ming/certif-eye.git
    cd certif-eye
    ```
 
