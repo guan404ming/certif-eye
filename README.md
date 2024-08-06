@@ -1,7 +1,7 @@
 # Certif-Eye 👀
 
 <p align="center">
-  <img width="400" alt="Certif-Eye Logo" src="assets/screenshot.png">
+  <img width="1438" alt="Certif-Eye Logo" src="assets/screenshot.png">
 </p>
 
 - We have created an AI-powered platform dedicated to identifying and verifying the authenticity of restaurant reviews. On this website, users can:
