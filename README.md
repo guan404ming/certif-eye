@@ -72,8 +72,8 @@
    - Backend:
      ```
      cd backend
-     pip install -r requirements.txt
-     bun run flask-dev
+     pip3 install -r requirements.txt
+     python3 -m flask --app api/index run -p 5328
      ```
 
 4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
