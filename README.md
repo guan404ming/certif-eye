@@ -57,31 +57,26 @@
    cd certif-eye
    ```
 
-2. Install frontend dependencies:
-   ```
-   bun install
-   ```
-
-3. Install backend dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-
-4. Set up environment variables:
-   - Create a `.env` file in the project root
+2. Set up environment variables in frontend:
+   - `cd frontend`
+   - Create a `.env` file in the frontend root
    - Add necessary environment variables (e.g., database URL, API keys, etc.)
 
-5. Run the development servers:
+3. Install and run the development servers:
    - Frontend:
      ```
+     cd frontend
+     bun install
      bun run next-dev
      ```
    - Backend:
      ```
+     cd backend
+     pip install -r requirements.txt
      bun run flask-dev
      ```
 
-6. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ### 👀 Contributing
 
